@@ -19,11 +19,11 @@ def main():
                 title = re.sub(r"^\[[^\]]*\]\s*", "", title)  # drop the [ ] tag
                 if not title:
                     continue
-                rows.append([title])
+                rows.append([r["board"], title])
 
     with open(os.path.join(DATA_DIR, CLEANED), "w", encoding="utf-8", newline="") as f:
         writer = csv.writer(f, lineterminator="\n")
-        writer.writerow(["title"])
+        writer.writerow(["board", "title"])
         writer.writerows(rows)
     print(f"Saved {len(rows)} cleaned titles to {CLEANED}")
 
