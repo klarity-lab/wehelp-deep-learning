@@ -8,7 +8,7 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
-VECTOR_SIZE = 100
+VECTOR_SIZE = 24
 MIN_COUNT = 3  # same idea as build_user_dict.py: rare words are mostly noise
 EPOCHS = 40
 EVAL_SIZE = 1000

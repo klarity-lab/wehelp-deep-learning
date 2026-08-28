@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.venv312/
+venv/
+
+# Scratch / working files (screenshots, PDFs, notes)
+tmp/
+screenshots/
+study/
+
+# Datasets (not committed)
+week-6/data/
+week-7/data/
+stage-2/data/
+
+# Local AI assistant instructions
+CLAUDE.md
+
+# macOS
+.DS_Store
