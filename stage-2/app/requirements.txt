@@ -1,0 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.13.0+cpu
+fastapi==0.141.1
+uvicorn==0.52.4
+gensim==4.4.0
+jieba==0.42.1
+numpy==2.5.2
+scipy==1.18.0
+tqdm==4.70.0

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>短文本分類預測</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; color: #1a1a2e; }
+  header { background: #263449; color: #fff; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
+  main { max-width: 720px; margin: 32px auto; padding: 0 16px; text-align: center; }
+  h2 { font-size: 18px; }
+  input[type=text] { width: 100%; max-width: 420px; padding: 8px 10px; font-size: 15px; border: 1px solid #999; border-radius: 4px; }
+  button { padding: 7px 14px; font-size: 14px; border: 1px solid #888; border-radius: 4px; background: #f2f2f2; cursor: pointer; margin: 4px; }
+  button:hover { background: #e2e8f2; }
+  #result { display: none; border: 1px solid #ccc; border-radius: 6px; padding: 16px; margin-top: 28px; }
+  #label { font-weight: bold; }
+  #thanks { color: #2e7d32; min-height: 1.2em; margin-top: 8px; }
+  .error { color: #c62828; }
+</style>
+</head>
+<body>
+<header>歡迎使用短文本分類預測</header>
+<main>
+  <h2>輸入一篇文章的標題</h2>
+  <form id="form">
+    <input type="text" id="title" placeholder="[討論] 海盜隊打線等級" maxlength="200" required>
+    <div><button type="submit" id="submit">預測分類</button></div>
+  </form>
+
+  <div id="result">
+    <div>預測結果:<span id="label"></span></div>
+    <div style="margin-top:10px">選擇您認為更正確的分類</div>
+    <div id="buttons"></div>
+    <div id="thanks"></div>
+  </div>
+</main>
+
+<script>
+const BOARDS = ["Boy-Girl", "Lifeismoney", "Military", "Tech_Job", "baseball",
+                "c_chat", "hatepolitics", "pc_shopping", "stock"];
+
+const form = document.getElementById("form");
+const result = document.getElementById("result");
+const labelEl = document.getElementById("label");
+const thanks = document.getElementById("thanks");
+const buttons = document.getElementById("buttons");
+
+for (const board of BOARDS) {
+  const b = document.createElement("button");
+  b.textContent = board;
+  b.onclick = () => sendFeedback(board);
+  buttons.appendChild(b);
+}
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  const title = document.getElementById("title").value;
+  thanks.textContent = "";
+  labelEl.classList.remove("error");
+  try {
+    const res = await fetch(`/api/model/prediction?title=${encodeURIComponent(title)}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail);
+    labelEl.textContent = data.label;
+  } catch (err) {
+    labelEl.textContent = "無法分類:" + err.message;
+    labelEl.classList.add("error");
+  }
+  result.style.display = "block";
+};
+
+async function sendFeedback(board) {
+  const title = document.getElementById("title").value;
+  const res = await fetch("/api/model/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, label: board }),
+  });
+  thanks.textContent = res.ok ? `已回報:${board},感謝您的回饋!` : "回報失敗,請再試一次";
+}
+</script>
+</body>
+</html>
