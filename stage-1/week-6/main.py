@@ -6,7 +6,7 @@ import sys
 
 random.seed(42)
 
-# Datasets are not committed. Download and place them in week-6/data/:
+# Datasets are not committed. Download and place them in stage-1/week-6/data/:
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
 
