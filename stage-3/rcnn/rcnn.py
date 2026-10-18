@@ -10,7 +10,8 @@ from torchvision.models.detection import fasterrcnn_resnet50_fpn
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.utils import draw_bounding_boxes
 
-STAGE_DIR = os.path.dirname(os.path.abspath(__file__))
+WEEK_DIR = os.path.dirname(os.path.abspath(__file__))      # stage-3/rcnn/, outputs go here
+STAGE_DIR = os.path.dirname(WEEK_DIR)                    # stage-3/, where data/ lives
 DATA_DIR = os.path.join(STAGE_DIR, "data", "r-cnn-data", "vehicles_images")
 
 NAMES = ["background", "Bus", "Car", "Motorcycle", "Pickup", "Truck"]  # index = model label; 0 is reserved for background
@@ -98,7 +99,7 @@ def main():
             (test_images[i] * 255).byte(), d["boxes"][keep], colors="red", width=2,
             labels=[f"{NAMES[l]} {s:.2f}" for l, s in zip(d["labels"][keep].tolist(), d["scores"][keep].tolist())],
         )
-        write_png(drawn, os.path.join(STAGE_DIR, f"detected-{i + 1}.png"))
+        write_png(drawn, os.path.join(WEEK_DIR, f"detected-{i + 1}.png"))
         print(f"detected-{i + 1}.png: {int(keep.sum())} boxes with score >= {DRAW_THRESHOLD}")
 
 

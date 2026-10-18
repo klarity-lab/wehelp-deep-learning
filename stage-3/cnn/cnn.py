@@ -10,7 +10,8 @@ from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "handwriting")
+STAGE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # stage-3/, where data/ lives
+DATA_DIR = os.path.join(STAGE_DIR, "data", "handwriting")
 TRAIN_DIR = os.path.join(DATA_DIR, "augmented_images", "augmented_images1")
 TEST_DIR = os.path.join(DATA_DIR, "handwritten-english-characters-and-digits", "combined_folder", "test")
 
